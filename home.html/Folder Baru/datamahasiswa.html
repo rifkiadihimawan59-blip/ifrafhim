@@ -2,33 +2,45 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Data Mahasiswa</title>
+    <title>Data Mahasiswa - Informatika 2024</title>
+    <link rel="stylesheet" href="sytel.css">
 </head>
 <body>
 
-    <h2 align="center">Data Mahasiswa Terdaftar</h2>
+    <h1 align="center">Data Mahasiswa</h1>
 
-    <p align="center">
-        Cari Mahasiswa: <input type="text" id="searchInput" onkeyup="cariMahasiswa()" placeholder="Masukkan nama...">
+    <p align="center" class="navbar">
+        <a href="index.html">Home</a> |
+        <a href="Profile.html">Profile</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="datamahasiswa.html"><b>Data Mahasiswa</b></a>
     </p>
 
-    <table align="center" border="1" id="tabelMahasiswa" cellpadding="10" cellspacing="0" width="60%">
-        <tr bgcolor="#f2f2f2">
-            <th>Nama</th>
-            <th>NIM</th>
-            <th>Kelas</th>
-        </tr>
-        <tr>
-            <td>RIFKI ADI HIMAWAN</td>
-            <td>13182420127</td>
-            <td>Informatika</td>
-        </tr>
-        <tr>
-            <td>Budi Santoso</td>
-            <td>13182420128</td>
-            <td>Informatika</td>
-        </tr>
-    </table>
+    <div class="content">
+        <h2 align="center">Daftar Mahasiswa Terdaftar</h2>
+        
+        <p align="center">
+            Cari Mahasiswa: <input type="text" id="searchInput" onkeyup="cariMahasiswa()" placeholder="Masukkan nama...">
+        </p>
+
+        <table align="center" id="tabelMahasiswa" width="100%">
+            <tr>
+                <th>Nama</th>
+                <th>NIM</th>
+                <th>Kelas</th>
+            </tr>
+            <tr>
+                <td>RIFKI ADI HIMAWAN</td>
+                <td>13182420127</td>
+                <td>Informatika</td>
+            </tr>
+            <tr>
+                <td>Budi Santoso</td>
+                <td>13182420128</td>
+                <td>Informatika</td>
+            </tr>
+        </table>
+    </div>
 
     <script>
     function cariMahasiswa() {
@@ -38,7 +50,7 @@
         let tr = table.getElementsByTagName("tr");
 
         for (let i = 1; i < tr.length; i++) {
-            let td = tr[i].getElementsByTagName("td")[0]; // Mencari berdasarkan kolom Nama
+            let td = tr[i].getElementsByTagName("td")[0];
             if (td) {
                 let txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {

@@ -1,0 +1,40 @@
+/* Mengatur font dan background agar lebih elegan */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Mempercantik tabel */
+table {
+    background-color: white;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Memberi gaya pada link (navigasi) */
+a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Mempercantik foto profil */
+img {
+    border-radius: 50%;
+    border: 5px solid #eee;
+}
