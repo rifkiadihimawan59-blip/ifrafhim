@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunday Coffee - Keranjang</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cart-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #f1f2f6; }
+        .cart-img { width: 60px; height: 60px; object-fit: contain; background: #f8f9fa; border-radius: 12px; }
+        .cart-details { flex: 1; }
+        .cart-details h4 { font-size: 14px; color: #2c3e50; margin-bottom: 4px; }
+        .qty-box { display: flex; align-items: center; gap: 12px; border: 1px solid #e1e2e6; padding: 6px 12px; border-radius: 20px; background: #f8f9fa; }
+        .qty-btn { border: none; background: transparent; font-weight: bold; cursor: pointer; color: #8c4f2b; font-size: 14px; }
+        .summary-card { background: #fdfaf7; border: 1px solid #f5ebe6; padding: 18px; border-radius: 20px; margin-top: 24px; }
+        .summary-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px; color: #57606f; }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container">
+        <div class="scroll-content">
+            <h3 style="margin-bottom: 20px; color: #2c3e50; font-size: 18px; font-weight: 800;">🛒 Detail Keranjang</h3>
+            
+            <!-- List Item Belanjaan -->
+            <div id="cart-list"></div>
+
+            <!-- Rincian Biaya -->
+            <div class="summary-card">
+                <div class="summary-row"><span>Subtotal Menu</span><span id="subtotal">Rp 0</span></div>
+                <div class="summary-row"><span>Pajak Resto PB1 (10%)</span><span id="pajak">Rp 0</span></div>
+                <hr style="border: 0; border-top: 1px dashed #e1e2e6; margin: 12px 0;">
+                <div class="summary-row" style="font-weight: 800; color: #1e272e; font-size: 16px;">
+                    <span>Total Pembayaran</span>
+                    <span id="total" style="color: #8c4f2b;">Rp 0</span>
+                </div>
+            </div>
+
+            <button class="btn-tambah" style="margin-top: 24px; padding: 16px; font-size: 14px; background-color: #8c4f2b; box-shadow: 0 4px 12px rgba(140, 79, 43, 0.2);" onclick="location.href='payment.html'">
+                Lanjut ke Pembayaran 💳
+            </button>
+        </div>
+
+        <!-- Tetap Terkunci Statis di Bawah HP -->
+        <div class="bottom-nav">
+            <a href="index.html" class="nav-item"><span>🏠</span>Home</a>
+            <a href="cart.html" class="nav-item active"><span>🛒</span>Keranjang</a>
+            <a href="success.html" class="nav-item"><span>📋</span>Status</a>
+        </div>
+    </div>
+
+    <script>
+        let keranjang = JSON.parse(localStorage.getItem('keranjang_mas_amba')) || [];
+
+        function renderKeranjang() {
+            const container = document.getElementById('cart-list');
+            if(keranjang.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:60px 0; color:#a4b0be;">
+                        <span style="font-size: 50px; display:block; margin-bottom:10px;">🛒</span>
+                        Keranjang belanja Anda kosong.
+                    </div>`;
+                return;
+            }
+            container.innerHTML = '';
+            let subtotal = 0;
+
+            keranjang.forEach((item, index) => {
+                subtotal += item.harga * item.qty;
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.gambar}" class="cart-img" onerror="this.src='assets/images/logo.jpg'">
+                        <div class="cart-details">
+                            <h4>${item.nama}</h4>
+                            <p style="font-size:13px; color:#8c4f2b; font-weight:700;">Rp ${(item.harga * item.qty).toLocaleString('id-ID')}</p>
+                        </div>
+                        <div class="qty-box">
+                            <button class="qty-btn" onclick="ubahJumlah(${index}, -1)">-</button>
+                            <span style="font-size:13px; font-weight:bold; color:#2c3e50;">${item.qty}</span>
+                            <button class="qty-btn" onclick="ubahJumlah(${index}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            let tax = subtotal * 0.1;
+            let total = subtotal + tax;
+            document.getElementById('subtotal').innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            document.getElementById('pajak').innerText = `Rp ${tax.toLocaleString('id-ID')}`;
+            document.getElementById('total').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            localStorage.setItem('total_bayar_mas_amba', total);
+        }
+
+        function ubahJumlah(index, aksi) {
+            keranjang[index].qty += aksi;
+            if(keranjang[index].qty <= 0) keranjang.splice(index, 1);
+            localStorage.setItem('keranjang_mas_amba', JSON.stringify(keranjang));
+            renderKeranjang();
+        }
+
+        renderKeranjang();
+    </script>
+</body>
+</html>
